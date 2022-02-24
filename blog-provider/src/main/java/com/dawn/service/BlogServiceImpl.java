@@ -41,7 +41,6 @@ public class BlogServiceImpl implements BlogService {
         if (blog == null) {
             throw new NotFoundException("该篇博客不存在，请前往首页查看已有的博客！");
         }
-
         return blog;
     }
 
