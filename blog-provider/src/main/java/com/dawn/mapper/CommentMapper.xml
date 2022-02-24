@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dawn.mapper.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.dawn.model.Comment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="parent_comment_id" jdbcType="INTEGER" property="parentCommentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, nickname, email, avatar, content, create_time, blog_id, parent_comment_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.dawn.model.Comment">
+    insert into t_comment (id, nickname, email, 
+      avatar, content, create_time, 
+      blog_id, parent_comment_id)
+    values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{avatar,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{blogId,jdbcType=INTEGER}, #{parentCommentId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dawn.model.Comment">
+    insert into t_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="parentCommentId != null">
+        parent_comment_id,
+      </if>
+      <if test="adminComment != null">
+        admin_comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="parentCommentId != null">
+        #{parentCommentId,jdbcType=INTEGER},
+      </if>
+      <if test="adminComment != null">
+        #{adminComment,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.model.Comment">
+    update t_comment
+    <set>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="parentCommentId != null">
+        parent_comment_id = #{parentCommentId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dawn.model.Comment">
+    update t_comment
+    set nickname = #{nickname,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      blog_id = #{blogId,jdbcType=INTEGER},
+      parent_comment_id = #{parentCommentId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <resultMap id="simple" type="com.dawn.vo.CommentVO">
+
+    <association property="comment" javaType="com.dawn.model.Comment">
+      <id property="id" column="id" />
+      <result property="nickname" column="nickname" />
+      <result property="content" column="content" />
+      <result property="avatar" column="avatar" />
+      <result property="createTime" column="create_time" />
+      <result property="blogId" column="blog_id" />
+      <result property="parentCommentId" column="parent_comment_id" />
+      <result property="adminComment" column="admin_comment" />
+    </association>
+  </resultMap>
+
+  <select id="listTopComment" resultMap="simple">
+    select *
+    from t_comment
+    where blog_id= #{id} and parent_comment_id = -1
+    order by create_time asc
+  </select>
+
+
+  <resultMap id="tree" type="com.dawn.vo.CommentVO">
+
+    <id property="id" column="cid" />
+    <result property="parentNickname" column="parentNickname" />
+
+    <association property="comment" javaType="com.dawn.model.Comment">
+      <result property="nickname" column="nickname" />
+      <result property="content" column="content" />
+      <result property="avatar" column="avatar" />
+      <result property="createTime" column="create_time" />
+      <result property="blogId" column="blog_id" />
+      <result property="parentCommentId" column="parent_comment_id" />
+      <result property="adminComment" column="admin_comment" />
+    </association>
+
+    <collection property="replyComments" select="listTreeComment" column="cid" />
+  </resultMap>
+
+
+
+  <select id="listTreeComment" resultMap="tree">
+    select
+    c.id as cid, c.nickname, c.content, c.avatar, c.create_time, c.blog_id, c.parent_comment_id, c.admin_comment,
+    p.id as pid, p.nickname as parentNickname
+    from t_comment c
+    join t_comment p
+    on c.parent_comment_id = p.id
+    where c.parent_comment_id = #{id}
+    order by c.create_time asc
+  </select>
+
+</mapper>

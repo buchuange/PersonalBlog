@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dawn.mapper.BlogMapper">
+    <resultMap id="BaseResultMap" type="com.dawn.model.Blog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="first_picture" jdbcType="VARCHAR" property="firstPicture"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="views" jdbcType="INTEGER" property="views"/>
+        <result column="appreciation" jdbcType="CHAR" property="appreciation"/>
+        <result column="share_statement" jdbcType="CHAR" property="shareStatement"/>
+        <result column="is_comment" jdbcType="CHAR" property="isComment"/>
+        <result column="published" jdbcType="CHAR" property="published"/>
+        <result column="recommend" jdbcType="CHAR" property="recommend"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="type_id" jdbcType="INTEGER" property="typeId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, title, content, first_picture, flag, views, appreciation, share_statement, is_comment, 
+    published, recommend, description, create_time, update_time, type_id, user_id
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_blog
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_blog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.dawn.model.Blog">
+    insert into t_blog (id, title, content, 
+      first_picture, flag, views, 
+      appreciation, share_statement, is_comment, 
+      published, recommend, description, create_time,
+      update_time, type_id, user_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{firstPicture,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, #{views,jdbcType=INTEGER}, 
+      #{appreciation,jdbcType=CHAR}, #{shareStatement,jdbcType=CHAR}, #{isComment,jdbcType=CHAR}, 
+      #{published,jdbcType=CHAR}, #{recommend,jdbcType=CHAR}, #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP}, #{typeId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.dawn.model.Blog" useGeneratedKeys="true" keyProperty="id">
+        insert into t_blog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="firstPicture != null">
+                first_picture,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="views != null">
+                views,
+            </if>
+            <if test="appreciation != null">
+                appreciation,
+            </if>
+            <if test="shareStatement != null">
+                share_statement,
+            </if>
+            <if test="isComment != null">
+                is_comment,
+            </if>
+            <if test="published != null">
+                published,
+            </if>
+            <if test="recommend != null">
+                recommend,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="typeId != null">
+                type_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="firstPicture != null">
+                #{firstPicture,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=VARCHAR},
+            </if>
+            <if test="views != null">
+                #{views,jdbcType=INTEGER},
+            </if>
+            <if test="appreciation != null">
+                #{appreciation,jdbcType=CHAR},
+            </if>
+            <if test="shareStatement != null">
+                #{shareStatement,jdbcType=CHAR},
+            </if>
+            <if test="isComment != null">
+                #{isComment,jdbcType=CHAR},
+            </if>
+            <if test="published != null">
+                #{published,jdbcType=CHAR},
+            </if>
+            <if test="recommend != null">
+                #{recommend,jdbcType=CHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="typeId != null">
+                #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dawn.model.Blog">
+        update t_blog
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="firstPicture != null">
+                first_picture = #{firstPicture,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=VARCHAR},
+            </if>
+            <if test="views != null">
+                views = #{views,jdbcType=INTEGER},
+            </if>
+            <if test="appreciation != null">
+                appreciation = #{appreciation,jdbcType=CHAR},
+            </if>
+            <if test="shareStatement != null">
+                share_statement = #{shareStatement,jdbcType=CHAR},
+            </if>
+            <if test="isComment != null">
+                is_comment = #{isComment,jdbcType=CHAR},
+            </if>
+            <if test="published != null">
+                published = #{published,jdbcType=CHAR},
+            </if>
+            <if test="recommend != null">
+                recommend = #{recommend,jdbcType=CHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="typeId != null">
+                type_id = #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dawn.model.Blog">
+    update t_blog
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      first_picture = #{firstPicture,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR},
+      views = #{views,jdbcType=INTEGER},
+      appreciation = #{appreciation,jdbcType=CHAR},
+      share_statement = #{shareStatement,jdbcType=CHAR},
+      is_comment = #{isComment,jdbcType=CHAR},
+      published = #{published,jdbcType=CHAR},
+      recommend = #{recommend,jdbcType=CHAR},
+      description = #{description,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      type_id = #{typeId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="getTotalByCondition" resultType="int">
+        select count(*)
+        from t_blog
+        <where>
+            <if test="title != null and title != ''">
+                and title like '%' #{title} '%'
+            </if>
+            <if test="typeId != null and typeId != ''">
+                and type_id = #{typeId}
+            </if>
+            <if test="recommend != null and recommend != ''">
+                and recommend = #{recommend}
+            </if>
+        </where>
+    </select>
+
+    <select id="getBlogListByCondition" resultMap="BaseResultMap">
+        select
+        b.id, b.title, b.recommend, b.published, b.update_time, t.name as type_id
+        from t_blog b
+        join t_type t
+        on b.type_id = t.id
+        <where>
+            <if test="title != null and title != ''">
+                and b.title like '%' #{title} '%'
+            </if>
+            <if test="typeId != null and typeId != ''">
+                and b.type_id = #{typeId}
+            </if>
+            <if test="recommend != null and recommend != ''">
+                and b.recommend = #{recommend}
+            </if>
+        </where>
+        order by b.update_time desc
+        limit #{pageNum}, #{pageSize}
+    </select>
+
+    <select id="getPublishedTotal" resultType="int">
+        select count(*)
+        from t_blog
+        where published = 1
+        <if test="typeId != null and typeId != ''">
+            and type_id = #{typeId}
+        </if>
+    </select>
+
+
+    <resultMap id="voMap" type="com.dawn.vo.IndexVO">
+        <association property="blog" javaType="com.dawn.model.Blog">
+            <id property="id" column="blog_id"/>
+            <result property="title" column="title"/>
+            <result property="description" column="description"/>
+            <result property="firstPicture" column="first_picture"/>
+            <result property="updateTime" column="update_time"/>
+            <result property="views" column="views"/>
+        </association>
+
+        <association property="type" javaType="com.dawn.model.Type">
+            <id property="id" column="type_id"/>
+            <result property="name" column="name"/>
+        </association>
+
+        <association property="user" javaType="com.dawn.model.User">
+            <id property="id" column="user_id"/>
+            <result property="nickname" column="nickname"/>
+            <result property="avatar" column="avatar"/>
+        </association>
+    </resultMap>
+
+    <select id="getPublishedBlogs" resultMap="voMap">
+        select
+        b.id as blog_id, b.title, b.description, b.first_picture, b.update_time, b.views,
+        t.id as type_id, t.name,
+        u.id as user_id, u.nickname, u.avatar
+        from t_blog b
+        join t_type t
+        on b.type_id = t.id
+        join t_user u
+        on b.user_id = u.id
+        where published = 1
+        <if test="typeId != null and typeId != ''">
+            and b.type_id = #{typeId}
+        </if>
+        order by b.update_time desc
+        limit #{pageNum}, #{pageSize}
+    </select>
+
+    <select id="getRecommendBlogs" resultMap="BaseResultMap">
+        select title, id
+        from t_blog
+        where published = 1 and recommend = 1
+        order by update_time desc
+        limit #{size}
+    </select>
+
+    <select id="getSearchTotal" resultType="int">
+        select count(*)
+        from t_blog
+        <where>
+            <if test="query != null and query != ''">
+                title like '%' #{title} '%' or content like concat('%', #{query},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getSearchBlogs" resultMap="voMap">
+        select
+        b.id as blog_id, b.title, b.description, b.first_picture, b.update_time, b.views,
+        t.id as type_id, t.name,
+        u.id as user_id, u.nickname, u.avatar
+        from t_blog b
+        join t_type t
+        on b.type_id = t.id
+        join t_user u
+        on b.user_id = u.id
+        where published = 1
+        <if test="query != null and query != ''">
+           and (b.title like concat('%', #{query},'%') or b.content like concat('%', #{query},'%'))
+        </if>
+        order by b.update_time desc
+        limit #{pageNum}, #{pageSize}
+    </select>
+
+
+    <select id="getTotalByTagId" resultType="int">
+        select count(*)
+        from t_blog b
+        join t_blog_tags tbt
+        on b.id = tbt.blog_id
+        where b.published = 1 and tbt.tag_id = #{tagId}
+    </select>
+
+    <select id="listBlogsByTagId" resultMap="voMap">
+        select
+        b.id as blog_id, b.title, b.description, b.first_picture, b.update_time, b.views,
+        t.id as type_id, t.name,
+        u.id as user_id, u.nickname, u.avatar
+        from t_blog b
+        join t_type t
+        on b.type_id = t.id
+        join t_user u
+        on b.user_id = u.id
+        join t_blog_tags tbt
+        on b.id = tbt.blog_id
+        where b.published = 1 and tbt.tag_id = #{tagId}
+        order by b.update_time desc
+        limit #{pageNum}, #{pageSize}
+    </select>
+
+    <resultMap id="archiveMap" type="com.dawn.vo.ArchivesVO">
+
+        <id property="year" column="year" />
+        <collection property="blogs" select="archivesBlogs" column="year" />
+    </resultMap>
+
+
+    <select id="listArchivesBlogs" resultMap="archiveMap">
+         select
+           date_format(update_time, '%Y') as year
+         from t_blog
+         group by year
+         order by year desc
+    </select>
+
+    <select id="archivesBlogs" resultType="com.dawn.model.Blog">
+        select id, title, flag, update_time as updateTime
+        from t_blog
+        where date_format(update_time, '%Y') = #{year};
+    </select>
+
+</mapper>
