@@ -1,6 +1,7 @@
 package com.dawn.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.dawn.exception.NotFoundException;
 import com.dawn.mapper.BlogMapper;
 import com.dawn.mapper.BlogTagRelationMapper;
 import com.dawn.mapper.TypeMapper;
@@ -33,9 +34,13 @@ public class BlogServiceImpl implements BlogService {
 
     @Transactional
     @Override
-    public Blog getBlogById(Integer id) {
+    public Blog getBlogById(Integer id) throws NotFoundException{
 
         Blog blog = blogMapper.selectByPrimaryKey(id);
+
+        if (blog == null) {
+            throw new NotFoundException("该篇博客不存在，请前往首页查看已有的博客！");
+        }
 
         return blog;
     }
